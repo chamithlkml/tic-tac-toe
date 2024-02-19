@@ -18,47 +18,20 @@
 import { ref } from 'vue'
 import SquareComponent from '@/components/SquareComponent.vue'
 import ControllerGroup from '@/components/ControllerGroup.vue'
+import { useGameLogics } from '@/composables/useGameLogics.js'
 const gameKeys = ref([0, 0, 0, 0, 0, 0, 0, 0, 0])
-const userInputs = ref([])
-const validCombinations = ref([
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-])
 const clickSquare = (index) => {
   if (gameKeys.value[index] === 0){
     gameKeys.value[index] = 1
-    userInputs.value.push(index)
+    markCircle()
   }
 }
+const { computedNextMove } = useGameLogics(gameKeys)
 const restartGame = () => {
   gameKeys.value = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
-const getUserWinningCombination = () => {
-  const selectedCombinations = []
-  for(const userInput in userInputs.value){
-    for(const validCombination in validCombinations.value){
-      if (validCombination.includes(userInput)){
-        if(selectedCombinations.includes(validCombination)){
-          return validCombination
-        }else{
-          selectedCombinations.push(validCombination)
-        }
-      }
-    }
-  }
-  return []
-}
 const markCircle = () => {
-  // If user is closer to winning, block them
-  const userWinningCombination = getUserWinningCombination()
-  if(userWinningCombination.length == 0){
-    
-  }
+  console.log('next move', computedNextMove.value)
+  gameKeys.value[computedNextMove.value] = 2
 }
 </script>
