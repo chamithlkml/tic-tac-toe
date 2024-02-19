@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+  .game-square{
+    @apply justify-center items-center text-center border-2 border-white bg-red-100 mt-1 ml-1 mr-1 mb-1 rounded-lg w-20 h-20
+  }
+}
