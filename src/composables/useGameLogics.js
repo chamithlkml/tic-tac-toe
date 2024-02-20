@@ -42,8 +42,8 @@ export const useGameLogics = (gameKeys) => {
     for(const validCombination of validCombinations){
       for(const userInput of inputs){
         if(validCombination.includes(userInput)){
-          const computerBlocked = opponentInputs.filter((opponentInput) => validCombination.includes(opponentInput))
-          if(computerBlocked.length === 0){
+          const opponentBlocked = opponentInputs.filter((opponentInput) => validCombination.includes(opponentInput))
+          if(opponentBlocked.length === 0){
             if(selectedCombinations.get(validCombination) === undefined){
               selectedCombinations.set(validCombination, 1)
             }else{
@@ -75,7 +75,9 @@ export const useGameLogics = (gameKeys) => {
       const userWinningCombination = winningCombination(userInputs.value, computerInputs.value)
       const computerWinningCombination = winningCombination(computerInputs.value, userInputs.value)
 
-      if(userWinningCombination.weight == 2){
+      if(computerWinningCombination.weight == 2){
+        return computerWinningCombination.combination.filter((key) => gameKeys.value[key] === 0)[0]
+      }else if(userWinningCombination.weight == 2){
         return userWinningCombination.combination.filter((key) => gameKeys.value[key] === 0)[0]
       }else{
         if(computerWinningCombination.combination === undefined){
@@ -87,5 +89,25 @@ export const useGameLogics = (gameKeys) => {
     }
   })
 
-  return { computedNextMove }
+  const declaredWinnerCode = computed(() => {
+    const userFilledValidCombinations = validCombinations.filter((validCombination) => {
+      return validCombination.every((value) => userInputs.value.includes(value))
+    })
+
+    const computerFilledValidCombinations = validCombinations.filter((validCombination) => {
+      return validCombination.every((value) => computerInputs.value.includes(value))
+    })
+
+    if(userFilledValidCombinations.length > 0){
+      return 1
+    }else if(computerFilledValidCombinations.length > 0){
+      return 2
+    }else if(remainingKeys.value.length === 0){
+      return 3
+    }else{
+      return 0
+    }
+  })
+
+  return { computedNextMove, declaredWinnerCode }
 }
