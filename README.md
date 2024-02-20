@@ -1,2 +1,2 @@
 # tic-tac-toe
-Tic Tac Toe game implemented by VueJS
+Tic Tac Toe game implemented using VueJS
