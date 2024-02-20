@@ -1,7 +1,7 @@
 <template>
-  <div class="justify-center flex items-center h-screen">
+  <div class="justify-center flex items-center mt-8">
     <div class="grid grid-cols-1 gap-1 text-center prose">
-      <h1 class="font-bold text-lg">Tic Tac Toe game using Vue</h1>
+      <h1 class="font-bold text-xl">Tic Tac Toe game using Vue</h1>
       <div class="grid grid-cols-3 gap-1/2">
         <SquareComponent :mark="gameKeys[0]" @click="clickSquare(0)" />
         <SquareComponent :mark="gameKeys[1]" @click="clickSquare(1)" />
@@ -16,6 +16,15 @@
       <ControllerGroup @restart-game="restartGame" :userWon="userWon" :computerWon="computerWon" :matchDraw="matchDraw" />
     </div>
   </div>
+  <div class="text-center mt-4">
+    <h2 class="font-bold">Score Board</h2>
+    <div class="justify-center mt-2 flex items-center">
+      <div class="grid grid-cols-2 w-100 gap-2">
+        <div class="bg-lime-500 p-2 rounded-lg w-40">You Won: {{ userScore }}</div>
+        <div class="bg-red-500 p-2 rounded-lg w-40">You Lost: {{ computerScore }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -26,7 +35,11 @@ const gameKeys = ref([0, 0, 0, 0, 0, 0, 0, 0, 0])
 const userWon = ref(false)
 const computerWon = ref(false)
 const matchDraw = ref(false)
+const userScore = ref(0)
+const computerScore = ref(0)
+
 const clickSquare = (index) => {
+  if (userWon.value || computerWon.value || matchDraw.value) return
   if (gameKeys.value[index] === 0){
     gameKeys.value[index] = 1
     markCircle()
@@ -41,9 +54,17 @@ const restartGame = () => {
 }
 const markCircle = () => {
   userWon.value = declaredWinnerCode.value === 1
-  if(userWon.value) return
+  if(userWon.value){
+    userScore.value++
+    return
+  }
+  console.log('computedNextMove.value', computedNextMove.value)
   gameKeys.value[computedNextMove.value] = 2
   computerWon.value = declaredWinnerCode.value === 2
+  if(computerWon.value){
+    computerScore.value++
+    return
+  }
   matchDraw.value = declaredWinnerCode.value === 3
 }
 </script>
