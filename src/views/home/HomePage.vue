@@ -1,6 +1,7 @@
 <template>
   <div class="justify-center flex items-center h-screen">
-    <div class="grid grid-cols-1 gap-1">
+    <div class="grid grid-cols-1 gap-1 text-center prose">
+      <h1 class="font-bold text-lg">Tic Tac Toe game using Vue</h1>
       <div class="grid grid-cols-3 gap-1/2">
         <SquareComponent :mark="gameKeys[0]" @click="clickSquare(0)" />
         <SquareComponent :mark="gameKeys[1]" @click="clickSquare(1)" />
