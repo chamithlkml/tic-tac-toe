@@ -1,3 +1,3 @@
 <template>
-  <img src="/public/close.png" width="50%" height="50%"/>
+  <img src="/src/assets/images/close.png" width="50%" height="50%"/>
 </template>

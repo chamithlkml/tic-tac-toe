@@ -58,9 +58,10 @@ const markCircle = () => {
     userScore.value++
     return
   }
-  console.log('computedNextMove.value', computedNextMove.value)
+
   gameKeys.value[computedNextMove.value] = 2
   computerWon.value = declaredWinnerCode.value === 2
+
   if(computerWon.value){
     computerScore.value++
     return
